@@ -19,7 +19,7 @@ public class Ventana {
     Lista lista=new Lista();
     public void llenarJlist(){
         DefaultListModel dlm=new DefaultListModel<>();
-        for (PuntoAcceso p: lista.listaUnica()){
+        for (PuntoAcceso p: lista.listaOrdenada()){
                 dlm.addElement(p.toString());
         }
         noDuplicadosJList.setModel(dlm);
@@ -41,8 +41,6 @@ public class Ventana {
         btnListar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                lista.listaUnica();
-                lista.ordenarNoDuplicados();
                 llenarJlist();
             }
         });

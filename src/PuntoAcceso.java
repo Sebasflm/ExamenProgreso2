@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class PuntoAcceso {
 private int codigo;
 private String marca;

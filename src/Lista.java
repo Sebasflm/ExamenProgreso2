@@ -1,8 +1,5 @@
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Lista {
 List <PuntoAcceso> listaDispositivos;
@@ -27,29 +24,47 @@ public void agregarDispositivo(PuntoAcceso ap){
     public List<PuntoAcceso> listaUnica() {
         Set<String> direccionesIPUnicas = new HashSet<>();
         List<PuntoAcceso> listaNoDuplicados = new ArrayList<>();
+
         for (PuntoAcceso dispositivo : listaDispositivos) {
             String direccionIP = dispositivo.getIp();
-            if (!direccionesIPUnicas.contains(direccionIP)) {
+            if (direccionesIPUnicas.add(direccionIP)) {
                 listaNoDuplicados.add(dispositivo);
-                direccionesIPUnicas.add(direccionIP);
+            } else {
+                eliminarDuplicadosPorIP(listaNoDuplicados, direccionIP);
             }
         }
         return listaNoDuplicados;
     }
+    private void eliminarDuplicadosPorIP(List<PuntoAcceso> lista, String direccionIP) {
+        List<PuntoAcceso> dispositivosAEliminar = new ArrayList<>();
 
-
-public void ordenarNoDuplicados(){
-    PuntoAcceso aux;
-    for (int i=0; i<listaUnica().size()-1;i++){
-        for(int j=i+1; j<listaUnica().size(); j++){
-            if (listaUnica().get(i).getCodigo()>listaUnica().get(j).getCodigo()){
-                aux=listaUnica().get(i);
-                listaUnica().set(i,listaUnica().get(j));
-                listaUnica().set(j, aux);
+        for (PuntoAcceso dispositivo : lista) {
+            if (dispositivo.getIp().equals(direccionIP)) {
+                dispositivosAEliminar.add(dispositivo);
             }
         }
+
+        lista.removeAll(dispositivosAEliminar);
     }
-}
+
+
+    public List<PuntoAcceso> listaOrdenada() {
+        List<PuntoAcceso> listaUnica = listaUnica();
+        PuntoAcceso aux;
+
+        for (int i = 0; i < listaUnica.size() - 1; i++) {
+            for (int j = i + 1; j < listaUnica.size(); j++) {
+                if (listaUnica.get(i).getCodigo() > listaUnica.get(j).getCodigo()) {
+                    aux = listaUnica.get(i);
+                    listaUnica.set(i, listaUnica.get(j));
+                    listaUnica.set(j, aux);
+                }
+            }
+        }
+        return listaUnica;
+    }
+
+
 public float sumatoria(int indice, String Marca){
 if (indice<listaDispositivos.size()){
     if (listaDispositivos.get(indice).getMarca().equals(Marca)){
